@@ -27,6 +27,13 @@ find_package(
     REQUIRED
 )
 
+# Create assets target.
+add_custom_target(
+    "copy_assets"
+    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${PROJECT_SOURCE_DIR}/res"
+            "${CMAKE_CURRENT_BINARY_DIR}/res"
+)
+
 # Add source to this project's executable.
 add_executable(
     cs50g
@@ -46,6 +53,7 @@ add_executable(
     "src/Sprite.cpp"
     "src/Sprite.hpp"
 )
+add_dependencies(cs50g "copy_assets")
 target_link_libraries(
     cs50g
     PRIVATE "SDL2::SDL2-static"

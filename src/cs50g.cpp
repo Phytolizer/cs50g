@@ -4,7 +4,10 @@
 #include "GraphicsContext.hpp"
 #include "MySDL.hpp"
 #include "SmartRenderer.hpp"
+#include "SmartSurface.hpp"
 #include "SmartWindow.hpp"
+#include "Sprite.hpp"
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <iostream>
@@ -19,6 +22,8 @@ int main(int /*argc*/, char** /*argv*/)
     const SmartWindow window{"Pong",       SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                              WINDOW_WIDTH, WINDOW_HEIGHT,           SDL_WINDOW_ALLOW_HIGHDPI};
     const SmartRenderer renderer{window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC};
+    const Sprite text{SmartTexture{
+        renderer, SmartSurface{TTF_RenderText_Blended(font, "Hello Pong!", SDL_Color{255, 255, 255, 255})}}};
 
     bool run = true;
     while (run)
@@ -38,6 +43,7 @@ int main(int /*argc*/, char** /*argv*/)
 
         renderer.setDrawColor(SDL_Color{0, 0, 0, 255});
         renderer.clear();
+        renderer.copy(text);
         renderer.present();
     }
 
